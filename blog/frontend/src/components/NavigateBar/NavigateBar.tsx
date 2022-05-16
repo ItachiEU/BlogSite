@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Outlet, useNavigate } from "react-router-dom";
-
+import { routes } from "../../routes";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -19,9 +19,9 @@ const NavigateBar = ({message} : {message: string}) => {
     const navigate = useNavigate();
 
     // more: "Bloggers"
-    const pages = ["About", "Contact"];
+  const pages: {[key: string]: string} = { "About" : "About", "Contact" : "Contact"};
 
-    const settings = ["Create!", "Account"];
+  const settings: {[key: string]: string} = { "Create": "Create new post!", "Account": "Account", "Logout": "Log out"};
     // const unknow_user_settings = ['Log in', 'Create account']
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
         null
@@ -47,7 +47,7 @@ const NavigateBar = ({message} : {message: string}) => {
     };
 
     const handleClickUserMenu = (setting : string) => {
-        navigate("/" + setting);
+        navigate(routes[setting]);
         setAnchorElUser(null);
     }
 
@@ -61,14 +61,14 @@ const NavigateBar = ({message} : {message: string}) => {
             <Toolbar disableGutters>
               <LaptopChromebookIcon
                 style={{ cursor: "pointer" }}
-                onClick={() => navigate("/Blogs")}
+                onClick={() => navigate(routes.Blogs)}
                 sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
               />
 
               <Typography
                 variant="h6"
                 noWrap
-                onClick={() => navigate("/Blogs")}
+                onClick={() => navigate(routes.Blogs)}
                 sx={{
                   mr: 2,
                   display: { xs: "none", md: "flex" },
@@ -111,9 +111,9 @@ const NavigateBar = ({message} : {message: string}) => {
                     display: { xs: "block", md: "none" },
                   }}
                 >
-                  {pages.map((page) => (
-                    <MenuItem key={page} onClick={() => navigate("/" + page)}>
-                      <Typography textAlign="center">{page}</Typography>
+                  {Object.keys(pages).map((page) => (
+                    <MenuItem key={page} onClick={() => navigate(routes[page])}>
+                      <Typography textAlign="center">{pages[page]}</Typography>
                     </MenuItem>
                   ))}
                 </Menu>
@@ -126,14 +126,14 @@ const NavigateBar = ({message} : {message: string}) => {
               >
                 <LaptopChromebookIcon
                   style={{ cursor: "pointer" }}
-                  onClick={() => navigate("/Blogs")}
+                  onClick={() => navigate(routes.Blogs)}
                 />
               </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                {pages.map((page) => (
+                {Object.keys(pages).map((page) => (
                   <Button
-                    key={page}
-                    onClick={() => navigate("/" + page)}
+                    key={pages[page]}
+                    onClick={() => navigate(routes[page])}
                     sx={{ my: 2, color: "black", display: "block" }}
                   >
                     <Typography
@@ -147,7 +147,7 @@ const NavigateBar = ({message} : {message: string}) => {
                         textDecoration: "none",
                       }}
                     >
-                      {page}
+                      {pages[page]}
                     </Typography>
                   </Button>
                 ))}
@@ -175,14 +175,11 @@ const NavigateBar = ({message} : {message: string}) => {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  {settings.map((setting) => (
+                  {Object.keys(settings).map((setting) => (
                     <MenuItem key={setting} onClick={() => handleClickUserMenu(setting)}>
-                      <Typography textAlign="center">{setting}</Typography>
+                      <Typography textAlign="center">{settings[setting]}</Typography>
                     </MenuItem>
                   ))}
-                  <MenuItem key={"Logout"} onClick={() => handleClickUserMenu("Blogs")}>
-                      <Typography textAlign="center">{"Logout"}</Typography>
-                </MenuItem>
                 </Menu>
               </Box>
             </Toolbar>
@@ -195,4 +192,4 @@ const NavigateBar = ({message} : {message: string}) => {
     );
 };
 
-    export default NavigateBar;
+export default NavigateBar;

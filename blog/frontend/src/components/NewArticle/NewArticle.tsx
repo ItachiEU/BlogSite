@@ -1,7 +1,7 @@
 const NewArticle = () => {
     return (
         <>
-        <h1>Kreator tworzenia nowego wpisu.</h1>
+            <h1>Kreator tworzenia nowego wpisu.</h1>
         </>
     )
 }

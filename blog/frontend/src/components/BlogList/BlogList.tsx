@@ -33,7 +33,7 @@ const BlogList = () => {
                     <IconButton
                       sx={{ color: "rgba(255, 255, 255, 0.54)" }}
                       aria-label={`info about ${item.title}`}
-                      onClick={() => navigate(`/Post/${index}`)}
+                      onClick={() => navigate(`/view_post/${index}`)}
                     >
                       <InfoIcon />
                     </IconButton>
