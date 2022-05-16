@@ -4,6 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from "@mui/material/Tooltip";
 import Box from "@mui/material/Box";
+import {Grid} from "@mui/material";
 
 const SearchBox = () => {
 
@@ -17,7 +18,7 @@ const SearchBox = () => {
     };
     
     return (
-      <Box sx={{ justifyContent: "center"}}>
+      <Grid container justifyContent={"center"} sx={{width: "100%"}}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
             label="Tag"
@@ -31,6 +32,7 @@ const SearchBox = () => {
                 <p>Maximum length is 20!</p>
               ) : null
             }
+            sx={{width: "60%"}}
           />
 
           <Tooltip title="Search!">
@@ -39,7 +41,7 @@ const SearchBox = () => {
             </IconButton>
           </Tooltip>
         </form>
-      </Box>
+      </Grid>
     );
 };
 

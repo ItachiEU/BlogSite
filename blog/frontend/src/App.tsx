@@ -7,13 +7,17 @@ import Contact from './components/Contact/Contact';
 import NavigateBar from "./components/NavigateBar";
 import NewArticle from './components/NewArticle/NewArticle';
 import UserAccount from './components/UserAccount/UserAccount';
+import Post from "./components/Post/Post";
 
 function App() {
 
   const [response, setResponse] = useState("");
 
   useEffect(() => {
-    fetch("/app/test").then(result => result.text()).then(text => setResponse(text));
+    fetch("/app/test").then(result => result.text()).then((text) => {
+      setResponse(text);
+      console.log(text);
+      })
   }, []);
 
   return (
@@ -25,6 +29,7 @@ function App() {
           <Route path="Create!" element={<NewArticle />} />
           <Route path="Account" element={<UserAccount />} />
           <Route path="Blogs" element={<BlogList />} />
+          <Route path="Post/:post_uid" element={<Post/>} />
         </Route>
       </Routes>
     </div>
@@ -32,6 +37,3 @@ function App() {
 }
 
 export default App;
-//<Route path="balance" element={<Balance />} />
-//<Route path="income" element={<IncomeList />} />
-//<Route path="expense" element={<ExpenseList />} />

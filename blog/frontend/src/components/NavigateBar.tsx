@@ -188,8 +188,7 @@ const NavigateBar = ({message} : {message: string}) => {
             </Toolbar>
           </Container>
         </AppBar>
-        <Container maxWidth="lg" style={{backgroundColor: "white"}}>
-          <h3>Server says: {message}</h3>
+        <Container style={{backgroundColor: "white"}}>
           <Outlet />
         </Container>
       </>
