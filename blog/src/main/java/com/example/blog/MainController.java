@@ -1,13 +1,10 @@
 package com.example.blog;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,6 +46,7 @@ public class MainController {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
+        System.out.println(file);
         Blog n = new Blog();
         try {
             n.setImage(file.getBytes());
@@ -95,10 +93,4 @@ public class MainController {
 
     public MainController() {
     }
-
-    @GetMapping("/test")
-    public String getTest(){
-        return "You made it!";
-    }
-
 }

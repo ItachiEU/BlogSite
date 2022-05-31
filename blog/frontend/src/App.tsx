@@ -11,19 +11,10 @@ import Post from "./components/Post/Post";
 
 function App() {
 
-  const [response, setResponse] = useState("");
-
-  useEffect(() => {
-    fetch("/app/test").then(result => result.text()).then((text) => {
-      setResponse(text);
-      console.log(text);
-      })
-  }, []);
-
   return (
     <>
       <Routes>
-        <Route path={routes.Home} element={<NavigateBar message={response} />}>
+        <Route path={routes.Home} element={<NavigateBar/>}>
           <Route path={routes.About} element={<About />} />
           <Route path={routes.Contact} element={<Contact />} />
           <Route path={routes.Create} element={<NewArticle />} />

@@ -7,7 +7,7 @@ import Container from '@mui/material/Container';
 import Navi from "./Navi";
 import UserNavi from './UserNavi';
 
-const NavigateBar = ({message} : {message: string}) => {
+const NavigateBar = () => {
     return (
       <>
         <AppBar
