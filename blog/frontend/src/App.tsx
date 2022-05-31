@@ -29,6 +29,7 @@ function App() {
           <Route path={routes.Create} element={<NewArticle />} />
           <Route path={routes.Account} element={<UserAccount />} />
           <Route path={routes.Blogs} element={<BlogList />} />
+          <Route path={routes.Blogs + "/page/:page_number"} element={<BlogList />} />
           <Route path={routes.Post + "/:post_uid"} element={<Post/>} />
         </Route>
       </Routes>

@@ -1,47 +1,54 @@
-import { useForm } from 'react-hook-form';
-import TextField from "@mui/material/TextField";
-import SearchIcon from '@mui/icons-material/Search';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from "@mui/material/Tooltip";
-import {Grid} from "@mui/material";
+import React, { useCallback, useEffect, useState } from "react";
+import { Autocomplete, Grid, TextField } from "@mui/material";
+import { debounce } from "lodash";
+import { useRecoilState } from 'recoil';
+import { postsToShowAtom } from "../../atoms/atoms";
 
 const SearchBox = () => {
+  const [allTags, setAllTags] = useState<string[]>([]);
+  let [postsToShow, setPostsToShow] = useRecoilState(postsToShowAtom);
+  const [selectedTag, setSelectedTag] = useState("");
 
-    const {
-      register,
-      handleSubmit,
-      formState: { errors },
-    } = useForm({ mode: "onChange" });
+  const debounceSetTag = useCallback(debounce((value) => {
+      setSelectedTag(value);
+  }, 300), []);
 
-    const onSubmit = (data: any) => {
-    };
-    
-    return (
-      <Grid container justifyContent={"center"} sx={{width: "100%"}}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <TextField
-            label="Tag"
-            placeholder="Enter tag..."
-            variant="filled"
-            {...register("tag", { required: true, maxLength: 20 })}
-            helperText={
-              errors.tag?.type === "required" ? (
-                <p>Please enter the tag.</p>
-              ) : errors.tag?.type === "maxLength" ? (
-                <p>Maximum length is 20!</p>
-              ) : null
-            }
-            sx={{width: "60%"}}
-          />
+  const activateFiltering = (selectedTag: string | null) => {      
+    //fetch new posts here with selectedTag
 
-          <Tooltip title="Search!">
-            <IconButton edge="end" aria-label="search" type="submit">
-              <SearchIcon />
-            </IconButton>
-          </Tooltip>
-        </form>
-      </Grid>
-    );
+    let newPosts = [{
+      img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
+      title: 'Coffee',
+      author: '@nolanissac',
+      cols: 2,
+      tag: "Food",
+    },
+    {
+      img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
+      title: 'Hats',
+      author: '@hjrc33',
+      cols: 2,
+      tag: "Travel",
+    }]; // placeholder
+    setPostsToShow(newPosts);
+  }
+
+  useEffect(() => {
+      // fetch all tags endpoint here
+      setAllTags(["food", "cinema", "car", "climbing", "football"]);
+  }, []);
+
+  return (
+    <Grid container justifyContent={"center"} sx={{width: "100%"}}>
+      <Autocomplete
+        disablePortal
+        options={allTags}
+        sx={{width: "300px"}}
+        onChange={(event: any, newValue: string | null) => activateFiltering(newValue)}
+        renderInput={(params) => <TextField {...params} label="Tag" onChange={(e) => debounceSetTag(e.target.value)}/>}
+      />
+    </Grid>
+  );
 };
 
 export default SearchBox;
