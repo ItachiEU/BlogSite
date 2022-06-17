@@ -8,6 +8,8 @@ import SearchBox from '../SearchBox/SearchBox';
 import {Grid, Typography} from "@mui/material";
 import { useRecoilState } from 'recoil';
 import { postsToShowAtom } from "../../atoms/atoms";
+import no_image from "../../../src/images/no_image.png";
+import { v4 } from "uuid";
 
 
 const BlogList = () => {
@@ -18,9 +20,11 @@ const BlogList = () => {
   const [width, setWidth] = useState(0);
 
   useEffect(() => {
-    // fetch blogs for page number page_number
-
-    setWidth(window.innerWidth / 2);
+    fetch(`/app/all_blogs`).then(result => result.json()).then((posts) => {
+      console.log(posts);
+      setPostsToShow(posts);
+    })
+    setWidth((window.innerWidth-100)/ 2);
   }, []);
 
   return (
@@ -32,14 +36,22 @@ const BlogList = () => {
         <Grid container justifyContent="center">
           {
             postsToShow.map((item, index) => (
-              <Grid item xs={6}>
-                <ImageListItem key={item.img}>
-                  <img
-                    src={`${item.img}?w=${width}&fit=crop&auto=format`}
-                    alt={item.title}
-                    id={`image${index}`}
-                    loading="lazy"
-                  />
+              <Grid item xs={6} key={v4()}>
+                <ImageListItem key={v4()}>
+                  {
+                    //@ts-ignore
+                    item.image !== '' ?
+                      <img
+                        //@ts-ignore
+                        src={`data:image/jpg;base64,${item.image}`}
+                        alt={item.title}
+                        id={`image${index}`}
+                        loading="lazy"
+                        style={{width: width, height: "auto"}}
+                      />
+                      :
+                      <img src={ no_image } style={{width: width, height: "auto"}}/>
+                  }
                   <ImageListItemBar
                     title={item.title}
                     subtitle={
