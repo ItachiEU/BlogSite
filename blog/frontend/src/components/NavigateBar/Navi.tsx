@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useNavigate } from "react-router-dom";
-import { routes } from "../../routes";
+import { routes, RouteType } from "../../routes";
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -13,11 +13,10 @@ import LaptopChromebookIcon from '@mui/icons-material/LaptopChromebook';
 const Navi = () => {
   const navigate = useNavigate();
 
-  // more: "Bloggers"
-  const pages: { [key: string]: string } = {
-    About: "About",
-    Contact: "Contact",
-  };
+  const pages: { path: RouteType, label: string }[] = [
+    { path: "About", label: "About" },
+    { path: "Contact", label: "Contact" }
+  ]
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -85,9 +84,9 @@ const Navi = () => {
             display: { xs: "block", md: "none" },
           }}
         >
-          {Object.keys(pages).map((page) => (
-            <MenuItem key={page} onClick={() => navigate(routes[page])}>
-              <Typography textAlign="center">{pages[page]}</Typography>
+          {pages.map((page) => (
+            <MenuItem key={page.path} onClick={() => navigate(routes[page.path])}>
+              <Typography textAlign="center">{page.label}</Typography>
             </MenuItem>
           ))}
         </Menu>
@@ -104,10 +103,10 @@ const Navi = () => {
         />
       </Typography>
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-        {Object.keys(pages).map((page) => (
+        {pages.map((page) => (
           <Button
-            key={pages[page]}
-            onClick={() => navigate(routes[page])}
+            key={page.path}
+            onClick={() => navigate(routes[page.path])}
             sx={{ my: 2, color: "black", display: "block" }}
           >
             <Typography
@@ -121,7 +120,7 @@ const Navi = () => {
                 textDecoration: "none",
               }}
             >
-              {pages[page]}
+              {page.label}
             </Typography>
           </Button>
         ))}

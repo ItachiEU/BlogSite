@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useNavigate } from "react-router-dom";
-import { routes } from "../../routes";
+import { routes, RouteType } from "../../routes";
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -10,29 +10,31 @@ import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 
 const UserNavi = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const settings: {[key: string]: string} = { "Create": "Create new post!", "Account": "Account", "Logout": "Log out"};
-      // const unknow_user_settings = ['Log in', 'Create account']
-    
-      const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-          null
-      );
+  const settings: { path: RouteType, label: string }[] = [
+    { path: "Create", label: "Create new post!" },
+    { path: "Account", label: "Account" },
+    { path: "Logout", label: "Log out"}
+  ]
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+      null
+  );
+
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+      setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+      setAnchorElUser(null);
+  };
+
+  const handleClickUserMenu = (setting : {path: RouteType, label: string}) => {
+      navigate(routes[setting.path]);
+      setAnchorElUser(null);
+  }
   
-      const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-          setAnchorElUser(event.currentTarget);
-      };
-  
-      const handleCloseUserMenu = () => {
-          setAnchorElUser(null);
-      };
-  
-      const handleClickUserMenu = (setting : string) => {
-          navigate(routes[setting]);
-          setAnchorElUser(null);
-      }
-  
-    return (
+  return (
     <React.Fragment>
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
@@ -56,13 +58,14 @@ const UserNavi = () => {
           open={Boolean(anchorElUser)}
           onClose={handleCloseUserMenu}
         >
-          {Object.keys(settings).map((setting) => (
-            <MenuItem
-              key={setting}
-              onClick={() => handleClickUserMenu(setting)}
-            >
-              <Typography textAlign="center">{settings[setting]}</Typography>
-            </MenuItem>
+          {
+            settings.map((setting) => (
+              <MenuItem
+                key={setting.path}
+                onClick={() => handleClickUserMenu(setting)}
+              >
+                <Typography textAlign="center">{setting.label}</Typography>
+              </MenuItem>
           ))}
         </Menu>
       </Box>
