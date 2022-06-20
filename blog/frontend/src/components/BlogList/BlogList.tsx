@@ -20,7 +20,7 @@ const BlogList = () => {
   const [width, setWidth] = useState(0);
 
   useEffect(() => {
-    fetch(`/app/all_blogs`).then(result => result.json()).then((posts) => {
+    fetch(`/app/blogs`).then(result => result.json()).then((posts) => {
       console.log(posts);
       setPostsToShow(posts);
     })

@@ -13,7 +13,9 @@ public class Blog {
     private Integer likesNum;
 
     private String description;
+    @Column(columnDefinition = "TEXT")
     private String textContent;
+
     private String tag;
 
     public Integer getId() {
