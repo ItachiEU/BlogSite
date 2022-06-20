@@ -15,19 +15,19 @@ function NewArticle() {
 
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
         if (!allTags.includes(selectedTag) && selectedTag !== "") {
-            fetch(`/app/add_tag?tag=${selectedTag}`, {
+            fetch(`/app/tag?tag=${selectedTag}`, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
                 method: "POST",
-                body: JSON.stringify({ tag: selectedTag })
+                body: JSON.stringify({ tag_name: selectedTag })
             })
         }
         console.log(images[0]);
         const formData = new FormData();
         formData.append('file', images[0]);
-        axios.post(`/app/add_blog?description=${data.title}&textContent=${data.message}&tag=${selectedTag}`, formData);
+        axios.post(`/app/blog?description=${data.title}&textContent=${data.message}&tag=${selectedTag}`, formData);
         reset({ message: "", title: "", image: undefined });
     };
 
@@ -40,7 +40,7 @@ function NewArticle() {
     }, 300), []);
 
     useEffect(() => {
-        fetch("/app/all_tags").then(result => result.json()).then(tags => setAllTags(tags.map((x: ITag) => x.tag)));
+        fetch("/app/tag").then(result => result.json()).then(tags => setAllTags(tags.map((x: ITag) => x.tag)));
     }, []);
 
     useEffect(() => {
@@ -71,7 +71,7 @@ function NewArticle() {
                             name="message"
                             control={control}
                             defaultValue=""
-                            render={({ field }) => <TextField {...field} multiline placeholder={"Message..."} required/>}
+                            render={({ field }) => <TextField {...field} multiline placeholder={"Content..."} required/>}
                         />
                     </Grid>
                     <Grid item>

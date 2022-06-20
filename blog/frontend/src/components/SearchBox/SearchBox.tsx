@@ -22,14 +22,14 @@ const SearchBox = () => {
       })
     }
     else {
-      fetch(`/app/all_blogs`).then(result => result.json()).then((posts) => {
+      fetch(`/app/blogs`).then(result => result.json()).then((posts) => {
         setPostsToShow(posts);
       })
     }
   }
 
   useEffect(() => {
-      fetch("/app/all_tags").then(result => result.json()).then(tags => setAllTags(tags.map((x: ITag) => x.tag)));
+      fetch("/app/tag").then(result => result.json()).then(tags => setAllTags(tags.map((x: ITag) => x.tag)));
   }, []);
 
   return (

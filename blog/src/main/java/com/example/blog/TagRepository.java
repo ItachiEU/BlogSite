@@ -16,6 +16,6 @@ import java.util.List;
 public interface TagRepository extends CrudRepository<Tag, Integer> {
     @Modifying
     @Transactional
-    @Query("delete Tag t  where t.tag = :tag")
-    void deleteTag(@Param(value = "tag") String tag);
+    @Query("delete Tag t  where t.tag_name = :tag_name")
+    void deleteByTag(@Param(value = "tag_name") String tag_name);
 }

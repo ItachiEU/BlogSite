@@ -8,7 +8,7 @@ public class Tag {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
-    private String tag;
+    private String tag_name;
 
     public Integer getId() {
         return id;
@@ -19,11 +19,11 @@ public class Tag {
     }
 
     public String getTag() {
-        return tag;
+        return tag_name;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setTag(String tag_name) {
+        this.tag_name = tag_name;
     }
 
 }
