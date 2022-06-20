@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, { useState, useEffect} from 'react';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
@@ -10,7 +10,7 @@ import { useRecoilState } from 'recoil';
 import { postsToShowAtom } from "../../atoms/atoms";
 import no_image from "../../../src/images/no_image.png";
 import { v4 } from "uuid";
-
+import { routes } from "../../routes";
 
 const BlogList = () => {
   let navigate = useNavigate();
@@ -50,7 +50,7 @@ const BlogList = () => {
                         style={{width: width, height: "auto"}}
                       />
                       :
-                      <img src={ no_image } style={{width: width, height: "auto"}}/>
+                      <img src={ no_image } style={{width: width, height: "auto"}} alt="Didn't load properly"/>
                   }
                   <ImageListItemBar
                     title={item.title}
@@ -58,13 +58,14 @@ const BlogList = () => {
                       <Typography color='white' variant="caption">
                         {item.author}
                         {item.tag}
-                      </Typography>
+                      </Typography> 
                     }
                     actionIcon={
                       <IconButton
                         sx={{ color: "rgba(255, 255, 255, 0.54)" }}
                         aria-label={`info about ${item.title}`}
-                        onClick={() => navigate(`/view_post/${index}`)}
+                        //@ts-ignore
+                        onClick={() => navigate(`${routes.Post}\\${item.id}`)}
                       >
                         <InfoIcon />
                       </IconButton>
@@ -79,6 +80,5 @@ const BlogList = () => {
     </Grid>
   )
 }
-
 
 export default BlogList;

@@ -1,4 +1,4 @@
-export const routes: {[key: string]: string} = {
+export const routes = {
    "Home": "/",
    "About": "/about",
    "Contact": "/contact",
@@ -8,3 +8,5 @@ export const routes: {[key: string]: string} = {
    "Post": "/view_post",
    "Logout": "/blogs"
 };
+
+export type RouteType = keyof typeof routes;
