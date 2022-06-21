@@ -91,3 +91,13 @@ export const postsToShowAtom = atom({
   key: 'postsToShowAtom', // unique ID (with respect to other atoms/selectors)
   default: [...itemData], // default value (aka initial value)
 });
+
+export const postsLoadingAtom = atom({
+  key: 'postsLoading',
+  default: true
+});
+
+export const pagesCountAtom = atom({
+  key: "pagesCountAtom",
+  default: 1
+})

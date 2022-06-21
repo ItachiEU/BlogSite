@@ -12,7 +12,6 @@ import Post from "./components/Post/Post";
 function App() {
 
   return (
-    <>
       <Routes>
         <Route path={routes.Home} element={<NavigateBar/>}>
           <Route path={routes.About} element={<About />} />
@@ -24,7 +23,6 @@ function App() {
           <Route path={routes.Post + "/:post_uid"} element={<Post/>} />
         </Route>
       </Routes>
-    </>
   );
 }
 

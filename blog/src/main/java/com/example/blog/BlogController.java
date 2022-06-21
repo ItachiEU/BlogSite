@@ -82,9 +82,11 @@ public class BlogController {
     }
 
     @GetMapping(path="/spec_blogs")
-    public @ResponseBody Iterable<Blog> getSpecifiedBlogs(@RequestParam String tag) {
+    public @ResponseBody Iterable<Blog> getSpecifiedBlogs(@RequestParam String tag, @RequestParam Integer start, @RequestParam Integer end) {
         // This returns a JSON or XML with the blogs
-        return blogRepository.findBlogsWithTag(tag);
+        List<Blog> blogList = (List<Blog>) blogRepository.findBlogsWithTag(tag);
+        Stream<Blog> stream = blogList.stream();
+        return (Iterable<Blog>) stream.skip(start - 1).limit(end - start + 1)::iterator;
     }
 
     public BlogController() {
