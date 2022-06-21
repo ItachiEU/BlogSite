@@ -4,6 +4,7 @@ import { Autocomplete, Grid, Input, TextField, Typography } from "@mui/material"
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { debounce } from "lodash";
 import { IFormInput, ITag } from "../../interfaces/Interfaces";
+import InfoDialog from "../ConfirmDialog/InfoDialog";
 import axios from "axios";
 
 function NewArticle() {
@@ -12,6 +13,7 @@ function NewArticle() {
     const [imageURL, setImageURL] = useState<string>("");
     const [allTags, setAllTags] = useState<string[]>([]);
     const [selectedTag, setSelectedTag] = useState("");
+    const [showInfoDialog, setShowInfoDialog] = useState(false);
 
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
         if (!allTags.includes(selectedTag) && selectedTag !== "") {
@@ -24,15 +26,18 @@ function NewArticle() {
                 body: JSON.stringify({ tag_name: selectedTag })
             })
         }
-        console.log(images[0]);
         const formData = new FormData();
         formData.append('file', images[0]);
-        axios.post(`/app/blog?description=${data.title}&textContent=${data.message}&tag=${selectedTag}`, formData);
-        reset({ message: "", title: "", image: undefined });
+        axios.post(`/app/blog?description=${data.title}&textContent=${data.message}&tag=${selectedTag}`, formData)
+            .then(response => setShowInfoDialog(true))
     };
 
-    const handleFileInputChange = (e: { target: { files: any[]; }; }) => {
-        setImages([...images, e.target.files[0]]);
+    const handleConfirm = () => {
+        window.location.reload();
+    }
+
+    const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setImages((images: any) => [...images, e.target.files?.[0]]);
     };
 
     const debounceSetTag = useCallback(debounce((value) => {
@@ -78,7 +83,6 @@ function NewArticle() {
                         <Controller
                             name="image"
                             control={control}
-                            //@ts-ignore
                             render={({ field }) => <Input type="file" {...field} onChange={handleFileInputChange}/>}
                         />
                     </Grid>
@@ -98,6 +102,14 @@ function NewArticle() {
                     </Grid>
                 </Grid>
             </form>
+            <InfoDialog
+                title="Success!"
+                open={showInfoDialog}
+                setOpen={setShowInfoDialog}
+                onConfirm={handleConfirm}
+              >
+                Your post has been sent!
+            </InfoDialog>
         </Grid>
     );
 }
